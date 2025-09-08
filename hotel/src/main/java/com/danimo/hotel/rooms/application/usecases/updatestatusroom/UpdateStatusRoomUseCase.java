@@ -26,9 +26,9 @@ public class UpdateStatusRoomUseCase implements UpdatingRoomStatusInputPort {
         Room room = findingRoomByIdOutputPort.findRoomById(dto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("La habitacion no existe"));
 
-        room.withStatus(dto.getStatus());
+        Room newRoom = room.withStatus(dto.getStatus());
 
-        return storingRoomOutputPort.save(room);
+        return storingRoomOutputPort.save(newRoom);
 
     }
 }
