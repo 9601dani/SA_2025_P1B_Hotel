@@ -30,6 +30,7 @@ public class ResponseRoomDto {
     private boolean smokingAllowed;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String imageUrl;
     private List<AmenityResponse> amenities;
 
     public static ResponseRoomDto fromDomain(Room room) {
@@ -48,6 +49,7 @@ public class ResponseRoomDto {
                 room.isSmokingAllowed(),
                 room.getCreatedAt().getCreatedAt(),
                 room.getUpdatedAt().getUpdatedAt(),
+                room.getImageUrl(),
                 room.getAmenities().stream()
                         .map(a -> new AmenityResponse(a.getName()))
                         .toList()

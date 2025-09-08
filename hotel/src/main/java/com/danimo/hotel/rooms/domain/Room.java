@@ -28,6 +28,7 @@ public class Room {
     private final RoomUpdatedAt updatedAt;
     private final boolean smokingAllowed;
     private final int floorNumber;
+    private final String imageUrl;
 
     public Room(RoomId id,
                 UUID locationId,
@@ -43,7 +44,8 @@ public class Room {
                 boolean smokingAllowed,
                 List<Amenity> amenities,
                 RoomCreatedAt createdAt,
-                RoomUpdatedAt updatedAt) {
+                RoomUpdatedAt updatedAt,
+                String imageUrl) {
 
         if (capacity <= 0) {
             throw new IllegalArgumentException("Capacity must be greater than 0");
@@ -70,6 +72,7 @@ public class Room {
         this.amenities = List.copyOf(amenities);
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.imageUrl = imageUrl;
     }
 
     public Room withStatus(RoomStatus newStatus) {
@@ -88,7 +91,8 @@ public class Room {
                 this.smokingAllowed,
                 this.amenities,
                 this.createdAt,
-                RoomUpdatedAt.generate()
+                RoomUpdatedAt.generate(),
+                this.imageUrl
         );
     }
 

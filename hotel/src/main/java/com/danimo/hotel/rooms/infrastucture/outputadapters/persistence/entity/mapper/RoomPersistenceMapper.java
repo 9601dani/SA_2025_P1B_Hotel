@@ -33,7 +33,8 @@ public class RoomPersistenceMapper {
                 dbEntity.isSmokingAllowed(),
                 amenities,
                 RoomCreatedAt.fromLocalDateTime(dbEntity.getCreatedAt()),
-                RoomUpdatedAt.fromLocalDateTime(dbEntity.getUpdatedAt())
+                RoomUpdatedAt.fromLocalDateTime(dbEntity.getUpdatedAt()),
+                dbEntity.getImageUrl()
         );
     }
 
@@ -55,6 +56,7 @@ public class RoomPersistenceMapper {
         dbEntity.setSmokingAllowed(room.isSmokingAllowed());
         dbEntity.setCreatedAt(room.getCreatedAt().getCreatedAt());
         dbEntity.setUpdatedAt(room.getUpdatedAt().getUpdatedAt());
+        dbEntity.setImageUrl(room.getImageUrl());
 
         List<AmenityDbEntity> amenities = room.getAmenities().stream()
                 .map(a -> toDbEntity(a, dbEntity))

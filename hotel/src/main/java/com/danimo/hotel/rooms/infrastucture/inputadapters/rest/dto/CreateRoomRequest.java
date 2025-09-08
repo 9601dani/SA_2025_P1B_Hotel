@@ -24,6 +24,7 @@ public class CreateRoomRequest {
     private int roomNumber;
     private int floorNumber;
     private boolean smokingAllowed;
+    private String imageUrl;
     private List<CreateAmenityRequest> amenities;
 
     public CreateRoomDto toDomain(){
@@ -39,6 +40,7 @@ public class CreateRoomRequest {
                getRoomNumber(),
                getFloorNumber(),
                isSmokingAllowed(),
+               getImageUrl(),
                getAmenities().stream()
                         .map(a -> new CreateAmenitiesDto(a.getName()))
                         .toList()

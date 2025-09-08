@@ -22,6 +22,7 @@ public class CreateRoomDto {
     private int roomNumber;
     private int floorNumber;
     private boolean smokingAllowed;
+    private final String imageUrl;
     private final List<CreateAmenitiesDto> amenityList;
 
     public Room toDomain(){
@@ -45,7 +46,8 @@ public class CreateRoomDto {
                 smokingAllowed,
                 domainAmenities,
                 RoomCreatedAt.generate(),
-                RoomUpdatedAt.generate()
+                RoomUpdatedAt.generate(),
+                imageUrl
         );
     }
 }

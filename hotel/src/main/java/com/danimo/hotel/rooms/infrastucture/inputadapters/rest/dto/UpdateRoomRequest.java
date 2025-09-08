@@ -23,6 +23,7 @@ public class UpdateRoomRequest {
     private int floorNumber;
     private boolean smokingAllowed;
     private List<UpdateAmenityRequest> amenities;
+    private String imageUrl;
 
     public UpdateRoomDto toDomain() {
         List<UpdateAmenitiesDto> dtoAmenities = amenities.stream()
@@ -42,6 +43,7 @@ public class UpdateRoomRequest {
                 roomNumber,
                 floorNumber,
                 smokingAllowed,
+                imageUrl,
                 dtoAmenities
         );
     }

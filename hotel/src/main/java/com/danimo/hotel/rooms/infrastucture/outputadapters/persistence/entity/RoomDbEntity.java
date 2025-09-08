@@ -49,6 +49,8 @@ public class RoomDbEntity {
     private LocalDateTime createdAt;
     @Column
     private LocalDateTime updatedAt;
+    @Column
+    private String imageUrl;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<AmenityDbEntity> amenities = new ArrayList<>();
