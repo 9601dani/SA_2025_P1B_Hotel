@@ -1,6 +1,6 @@
 package com.danimo.hotel.appointment.infrastructure.outputadapters.rest.dto;
 
-import com.danimo.restaurant.order.domain.aggregate.Order;
+import com.danimo.hotel.appointment.domain.Appointment;
 import lombok.Value;
 
 import java.util.List;
@@ -15,16 +15,16 @@ public class CreateBillRequestDto {
     private String moneda;
     private List<CreateBillItemRequestDto> items;
 
-    public static CreateBillRequestDto fromOrder(Order order) {
+    public static CreateBillRequestDto fromOrder(Appointment appointment) {
         return new CreateBillRequestDto(
-                order.getLocationId(),
-                order.getIdClient(),
-                order.getDescription(),
-                "RESTAURANT",
+                appointment.getLocationId(),
+                appointment.getIdClient(),
+                appointment.getDescription(),
+                "HOTEL",
                 "GTQ",
-                order.getItems().stream()
+                appointment.getItems().stream()
                         .map(i -> new CreateBillItemRequestDto(
-                                i.getDishNameSnapshot(),
+                                i.getRoomName(),
                                 i.getQuantity(),
                                 i.getUnitPrice()
                         )).toList()

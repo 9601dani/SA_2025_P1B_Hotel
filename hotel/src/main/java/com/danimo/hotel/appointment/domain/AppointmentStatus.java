@@ -1,4 +1,8 @@
 package com.danimo.hotel.appointment.domain;
 
-public class AppointmentStatus {
+public enum AppointmentStatus {
+    CREATED,
+    IN_PROGRESS,
+    COMPLETED,
+    CANCELLED
 }

@@ -1,6 +1,6 @@
 package com.danimo.hotel.appointment.infrastructure.outputadapters.rest;
 
-import com.danimo.restaurant.order.application.outputports.rest.ExistClientOutputPort;
+import com.danimo.hotel.appointment.application.outputports.rest.ExistClientOutputPort;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

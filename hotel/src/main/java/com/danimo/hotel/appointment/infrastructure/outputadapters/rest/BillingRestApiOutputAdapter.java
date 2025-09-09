@@ -1,8 +1,8 @@
 package com.danimo.hotel.appointment.infrastructure.outputadapters.rest;
 
-import com.danimo.restaurant.order.application.outputports.rest.CreatingBillOutputPort;
-import com.danimo.restaurant.order.domain.aggregate.Order;
-import com.danimo.restaurant.order.infrastructure.outputadapters.rest.dto.CreateBillRequestDto;
+import com.danimo.hotel.appointment.application.outputports.rest.CreatingBillOutputPort;
+import com.danimo.hotel.appointment.domain.Appointment;
+import com.danimo.hotel.appointment.infrastructure.outputadapters.rest.dto.CreateBillRequestDto;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
@@ -19,9 +19,9 @@ public class BillingRestApiOutputAdapter implements CreatingBillOutputPort {
 
     @Override
     @Transactional(propagation = Propagation.MANDATORY)
-    public boolean createBill(Order order) {
+    public boolean createBill(Appointment appointment) {
         try {
-            CreateBillRequestDto dto = CreateBillRequestDto.fromOrder(order);
+            CreateBillRequestDto dto = CreateBillRequestDto.fromOrder(appointment);
 
             var response = billRestClient.post()
                     .uri("")

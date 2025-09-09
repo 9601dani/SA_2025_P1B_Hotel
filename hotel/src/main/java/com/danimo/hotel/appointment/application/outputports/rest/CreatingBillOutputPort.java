@@ -1,7 +1,7 @@
 package com.danimo.hotel.appointment.application.outputports.rest;
 
-import com.danimo.restaurant.order.domain.aggregate.Order;
+import com.danimo.hotel.appointment.domain.Appointment;
 
 public interface CreatingBillOutputPort {
-    boolean createBill(Order order);
+    boolean createBill(Appointment appointment);
 }

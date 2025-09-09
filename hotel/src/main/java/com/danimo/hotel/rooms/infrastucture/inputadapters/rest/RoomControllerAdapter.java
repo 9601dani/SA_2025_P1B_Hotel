@@ -2,6 +2,7 @@ package com.danimo.hotel.rooms.infrastucture.inputadapters.rest;
 
 import com.danimo.hotel.common.infrastructure.annotations.WebAdapter;
 import com.danimo.hotel.rooms.application.inputports.*;
+import com.danimo.hotel.rooms.application.usecases.availablerooms.FindAvailableRoomsCoomandDto;
 import com.danimo.hotel.rooms.application.usecases.createroom.CreateRoomDto;
 import com.danimo.hotel.rooms.domain.Room;
 import com.danimo.hotel.rooms.infrastucture.inputadapters.rest.dto.CreateRoomRequest;
@@ -13,11 +14,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,19 +33,22 @@ public class RoomControllerAdapter {
     private final FindingRoomByIdInputPort findingRoomByIdInputPort;
     private final FindingRoomByLocationInputPort findingRoomByLocationInputPort;
     private final FindingRoomByNumberRoomInputPort findingRoomByNumberRoomInputPort;
+    private final FindAvailableRoomsInputPort findAvailableRoomsInputPort;
     private final UpdatingRoomInputPort updatingRoomInputPort;
     private final UpdatingRoomStatusInputPort updatingRoomStatusInputPort;
 
     @Autowired
     public RoomControllerAdapter(CreatingRoomInputPort creatingRoomInputPort, FindingRoomByIdInputPort findingRoomByIdInputPort,
                                  FindingRoomByLocationInputPort findingRoomByLocationInputPort, FindingRoomByNumberRoomInputPort findingRoomByNumberRoomInputPort,
-                                 UpdatingRoomInputPort updatingRoomInputPort, UpdatingRoomStatusInputPort updatingRoomStatusInputPort) {
+                                 UpdatingRoomInputPort updatingRoomInputPort, UpdatingRoomStatusInputPort updatingRoomStatusInputPort,
+                                 FindAvailableRoomsInputPort findAvailableRoomsInputPort) {
         this.creatingRoomInputPort = creatingRoomInputPort;
         this.findingRoomByIdInputPort = findingRoomByIdInputPort;
         this.findingRoomByLocationInputPort = findingRoomByLocationInputPort;
         this.findingRoomByNumberRoomInputPort = findingRoomByNumberRoomInputPort;
         this.updatingRoomInputPort = updatingRoomInputPort;
         this.updatingRoomStatusInputPort = updatingRoomStatusInputPort;
+        this.findAvailableRoomsInputPort = findAvailableRoomsInputPort;
     }
 
     @Operation(
@@ -127,5 +133,29 @@ public class RoomControllerAdapter {
     public ResponseEntity<ResponseRoomDto> updateRoom(@RequestBody UpdateRoomRequest dto) {
         Room room = updatingRoomInputPort.updateRoom(dto.toDomain());
         return ResponseEntity.ok(ResponseRoomDto.fromDomain(room));
+    }
+    @Operation(
+            summary = "Habitaciones disponibles por rango de fechas",
+            description = "Devuelve las habitaciones disponibles (sin traslape de reservas) para la ubicación indicada."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Habitaciones disponibles encontradas"),
+            @ApiResponse(responseCode = "400", description = "Parámetros inválidos")
+    })
+    @GetMapping("/availability")
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<ResponseRoomDto>> getAvailableRooms(
+            @RequestParam UUID locationId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+    ) {
+        var command = new FindAvailableRoomsCoomandDto(locationId, startDate, endDate);
+
+        var rooms = findAvailableRoomsInputPort.findRoomsAvailabilities(command)
+                .stream()
+                .map(ResponseRoomDto::fromDomain)
+                .toList();
+
+        return ResponseEntity.ok(rooms);
     }
 }

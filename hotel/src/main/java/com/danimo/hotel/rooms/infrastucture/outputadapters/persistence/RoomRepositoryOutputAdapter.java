@@ -1,10 +1,7 @@
 package com.danimo.hotel.rooms.infrastucture.outputadapters.persistence;
 
 import com.danimo.hotel.common.infrastructure.annotations.PersistenceAdapter;
-import com.danimo.hotel.rooms.application.outputports.persistence.FindingRoomByIdOutputPort;
-import com.danimo.hotel.rooms.application.outputports.persistence.FindingRoomByLocationOutputPort;
-import com.danimo.hotel.rooms.application.outputports.persistence.FindingRoomByNumberRoomOutputPort;
-import com.danimo.hotel.rooms.application.outputports.persistence.StoringRoomOutputPort;
+import com.danimo.hotel.rooms.application.outputports.persistence.*;
 import com.danimo.hotel.rooms.domain.Room;
 import com.danimo.hotel.rooms.infrastucture.outputadapters.persistence.entity.RoomDbEntity;
 import com.danimo.hotel.rooms.infrastucture.outputadapters.persistence.entity.mapper.RoomPersistenceMapper;
@@ -13,13 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @PersistenceAdapter
 public class RoomRepositoryOutputAdapter implements FindingRoomByIdOutputPort,
-        FindingRoomByLocationOutputPort, FindingRoomByNumberRoomOutputPort, StoringRoomOutputPort {
+        FindingRoomByLocationOutputPort, FindingRoomByNumberRoomOutputPort, StoringRoomOutputPort, RoomAvailabiityOutputPort {
 
     private final RoomDbEntityJpaRepository roomDbEntityJpaRepository;
     private final RoomPersistenceMapper roomPersistenceMapper;
@@ -61,5 +59,19 @@ public class RoomRepositoryOutputAdapter implements FindingRoomByIdOutputPort,
         RoomDbEntity savedRoomDbEntity = roomDbEntityJpaRepository.save(roomDbEntity);
 
         return roomPersistenceMapper.toDomain(savedRoomDbEntity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Room> findAvailableRooms(UUID locationId, LocalDate startDate, LocalDate endDate) {
+        var blocking = java.util.Set.of(
+                com.danimo.hotel.appointment.domain.AppointmentStatus.CREATED,
+                com.danimo.hotel.appointment.domain.AppointmentStatus.IN_PROGRESS
+        );
+
+        var entities = roomDbEntityJpaRepository.findAvailableRooms(locationId, startDate, endDate);
+        return entities.stream()
+                .map(roomPersistenceMapper::toDomain)
+                .toList();
     }
 }

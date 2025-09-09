@@ -17,4 +17,22 @@ public class HotelApplication {
 				.baseUrl("http://localhost:8000/v1/locations/check/")
 				.build();
 	}
+	@Bean("ClientRestApi")
+	public RestClient restClient() {
+		return RestClient.builder()
+				.baseUrl("http://localhost:8000/v1/clients/check/")
+				.build();
+	}
+	@Bean("UserRestApi")
+	public RestClient restUserClient() {
+		return RestClient.builder()
+				.baseUrl("http://localhost:8000/v1/users/check/")
+				.build();
+	}
+	@Bean("BillRestApi")
+	public RestClient restBillClient() {
+		return RestClient.builder()
+				.baseUrl("http://localhost:8000/v1/bills")
+				.build();
+	}
 }
