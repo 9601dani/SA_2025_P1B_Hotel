@@ -1,0 +1,4 @@
+package com.danimo.hotel.appointment.infrastructure.inputadapters.rest.dto;
+
+public class UpdateAppointmentRequestDto {
+}
