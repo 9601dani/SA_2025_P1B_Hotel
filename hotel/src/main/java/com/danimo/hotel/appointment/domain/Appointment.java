@@ -77,5 +77,11 @@ public class Appointment {
         this.status = AppointmentStatus.CREATED;
     }
 
+    public void changeStatusCheckin(String idClient){
+        this.status = AppointmentStatus.IN_PROGRESS;
+        this.updatedAt = AppointmentUpdatedAt.generate();
+        this.idClient = idClient;
+    }
+
 
 }

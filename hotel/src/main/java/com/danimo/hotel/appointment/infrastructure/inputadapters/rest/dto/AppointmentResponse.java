@@ -20,6 +20,7 @@ public class AppointmentResponse {
     BigDecimal subtotal;
     BigDecimal tax;
     BigDecimal discount;
+    String code;
     BigDecimal total;
     List<AppointmentItemReponseDto> items;
     LocalDate startDate;
@@ -36,6 +37,7 @@ public class AppointmentResponse {
                 appointment.getSubTotal().getSubtotal(),
                 appointment.getTax().getTax(),
                 appointment.getDiscount().getDiscount(),
+                appointment.getDiscount().getCode(),
                 appointment.getTotal().getTotal(),
                 appointment.getItems().stream().map(AppointmentItemReponseDto::fromDomain).toList(),
                 appointment.getStartDate().getStartAt(),

@@ -11,8 +11,11 @@ import java.util.UUID;
 
 public interface AppointmentDbEntityJpaRepository extends JpaRepository<AppointmentDbEntity, UUID> {
     List<AppointmentDbEntity> findByIdClient(String idClient);
-    boolean existsByItems_RoomIdAndStatusNotAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-            UUID roomId, AppointmentStatus status, LocalDate requestedEnd, LocalDate requestedStart
+    boolean existsByItems_RoomIdAndStatusInAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+            UUID roomId,
+            List<AppointmentStatus> statuses,
+            LocalDate requestedEnd,
+            LocalDate requestedStart
     );
 
     List<AppointmentDbEntity> findByLocationId(UUID locationId);

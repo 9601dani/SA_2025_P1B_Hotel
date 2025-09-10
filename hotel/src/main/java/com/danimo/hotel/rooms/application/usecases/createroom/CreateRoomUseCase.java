@@ -32,7 +32,7 @@ public class CreateRoomUseCase implements CreatingRoomInputPort {
         }
 
         if(findingRoomByNumberRoomOutputPort.findingRoomByNumberRoom(dto.getLocationId(), dto.getRoomNumber()).isPresent()) {
-            throw new EntityNotFoundException("La room en el establecimiento ya existe");
+            throw new EntityNotFoundException("Ya existe una habitacion con el numero "+ dto.getRoomNumber()+" en el establecimiento ya existe");
         }
 
         Room room = dto.toDomain();

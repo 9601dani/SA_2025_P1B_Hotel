@@ -3,10 +3,7 @@ package com.danimo.hotel.appointment.infrastructure.inputadapters.rest;
 import com.danimo.hotel.appointment.application.inputports.*;
 import com.danimo.hotel.appointment.application.usecases.createappointment.CreateAppointmentDto;
 import com.danimo.hotel.appointment.domain.Appointment;
-import com.danimo.hotel.appointment.infrastructure.inputadapters.rest.dto.AppointmentResponse;
-import com.danimo.hotel.appointment.infrastructure.inputadapters.rest.dto.CreateAppointmentRequestDto;
-import com.danimo.hotel.appointment.infrastructure.inputadapters.rest.dto.UpdateAppointmentRequestDto;
-import com.danimo.hotel.appointment.infrastructure.inputadapters.rest.dto.UpdateStatusAppointmentRequestDto;
+import com.danimo.hotel.appointment.infrastructure.inputadapters.rest.dto.*;
 import com.danimo.hotel.common.infrastructure.annotations.WebAdapter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,10 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.UUID;
 
 @Tag(name = "Appointments", description = "Operaciones relacionadas a las reservaciones")
 @RestController
@@ -34,12 +29,13 @@ public class AppointmentControllerAdapter {
     private final UpdatingAppointmentInputPort updatingAppointmentInputPort;
     private final UpdatingStateAppointmentInputPort updatingStateAppointmentInputPort;
     private final FindingAppointmentsByLocationIdInputPort findingAppointmentsByLocationIdInputPort;
+    private final CheckInAppointmentInputPort checkInAppointmentInputPort;
 
     @Autowired
     public AppointmentControllerAdapter(CreatingAppointmentInputPort creatingAppointmentInputPort, FindingAppointmentByIdInputPort findingAppointmentByIdInputPort,
                                         FindingAppointmentByClientIdInputPort findingAppointmentByClientIdInputPort, ListingAllAppointmentInputPort listingAllAppointmentInputPort,
                                         UpdatingAppointmentInputPort updatingAppointmentInputPort, UpdatingStateAppointmentInputPort updatingStateAppointmentInputPort,
-                                        FindingAppointmentsByLocationIdInputPort findingAppointmentsByLocationIdInputPort) {
+                                        FindingAppointmentsByLocationIdInputPort findingAppointmentsByLocationIdInputPort, CheckInAppointmentInputPort checkInAppointmentInputPort) {
         this.creatingAppointmentInputPort = creatingAppointmentInputPort;
         this.findingAppointmentByIdInputPort = findingAppointmentByIdInputPort;
         this.findingAppointmentByClientIdInputPort = findingAppointmentByClientIdInputPort;
@@ -47,6 +43,7 @@ public class AppointmentControllerAdapter {
         this.updatingAppointmentInputPort = updatingAppointmentInputPort;
         this.updatingStateAppointmentInputPort = updatingStateAppointmentInputPort;
         this.findingAppointmentsByLocationIdInputPort = findingAppointmentsByLocationIdInputPort;
+        this.checkInAppointmentInputPort = checkInAppointmentInputPort;
     }
 
     @Operation(
@@ -163,5 +160,21 @@ public class AppointmentControllerAdapter {
         List<Appointment> appointments = findingAppointmentsByLocationIdInputPort.findByLocationId(id);
 
         return ResponseEntity.ok(appointments.stream().map(AppointmentResponse::fromDomain).toList());
+    }
+
+    @Operation(
+            summary = "Hacer checkin de una reservacion",
+            description = "Devuelve la reservacion actuzalizada si existe."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Reservacion actualizada"),
+            @ApiResponse(responseCode = "404", description = "Reservacion no actualizada")
+    })
+    @PostMapping("/checkin")
+    @Transactional
+    public ResponseEntity<AppointmentResponse> checkInAppointment(@RequestBody CheckinRequestDto dto) {
+        Appointment appointment = checkInAppointmentInputPort.checkInAppointment(dto.toAppli());
+
+        return ResponseEntity.ok(AppointmentResponse.fromDomain(appointment));
     }
 }

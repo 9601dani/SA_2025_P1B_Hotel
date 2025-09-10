@@ -25,7 +25,12 @@ INSERT INTO rooms (
 -- Sucursal Sur
 ('33333333-3333-3333-3333-333333333333', '123e4567-e89b-12d3-a456-426614174002',
  'Habitación Deluxe', 'Habitación remodelada con balcón', 'HABITACIONES', 'MAINTENANCE',
- 95.00, 2, 1, 301, 3, FALSE, '2025-09-05 10:10:00', '2025-09-05 10:10:00',
+ 95.00, 2, 1, 302, 4, FALSE, '2025-09-05 10:10:00', '2025-09-05 10:10:00',
+ 'images/17b83ed4-1394-4f04-be39-08852c42e8a4'),
+-- Sucursal Sur
+('33333333-3333-3333-3333-333333333555', '123e4567-e89b-12d3-a456-426614174002',
+ 'Habitación Deluxe', 'Habitación remodelada con balcón', 'HABITACIONES', 'AVAILABLE',
+ 100.00, 2, 1, 301, 3, FALSE, '2025-09-05 10:10:00', '2025-09-05 10:10:00',
  'images/17b83ed4-1394-4f04-be39-08852c42e8a4'),
 
 -- Sucursal CDMX

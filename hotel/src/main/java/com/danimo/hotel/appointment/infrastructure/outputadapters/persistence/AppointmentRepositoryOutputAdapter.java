@@ -68,8 +68,9 @@ public class AppointmentRepositoryOutputAdapter implements FindingAllAppointment
     @Override
     @Transactional(readOnly = true)
     public boolean existsActiveOverlapForRoom(UUID roomId, LocalDate requestedStart, LocalDate requestedEnd) {
-        return appointmentDbEntityJpaRepository.existsByItems_RoomIdAndStatusNotAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-                roomId, AppointmentStatus.CANCELLED, requestedEnd, requestedStart
+        List<AppointmentStatus> activeStatuses = List.of(AppointmentStatus.CREATED, AppointmentStatus.IN_PROGRESS);
+        return appointmentDbEntityJpaRepository.existsByItems_RoomIdAndStatusInAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                roomId, activeStatuses, requestedEnd, requestedStart
         );
     }
 
