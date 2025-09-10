@@ -16,6 +16,7 @@ public class UpdateRoomDto {
     String description;
     String category;
     String status;
+    BigDecimal costPerDay;
     BigDecimal pricePerDay;
     int capacity;
     int numberOfBed;
@@ -37,6 +38,7 @@ public class UpdateRoomDto {
                 description,
                 Category.fromString(category),
                 RoomStatus.fromString(status),
+                RoomCost.fromBigDecimal(costPerDay),
                 RoomPricePerDay.fromBigDecimal(pricePerDay),
                 capacity,
                 numberOfBed,

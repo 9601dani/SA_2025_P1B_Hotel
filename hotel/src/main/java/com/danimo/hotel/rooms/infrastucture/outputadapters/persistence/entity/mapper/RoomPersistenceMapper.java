@@ -25,6 +25,7 @@ public class RoomPersistenceMapper {
                 dbEntity.getDescription(),
                 Category.fromString(dbEntity.getCategory()),
                 dbEntity.getStatus(),
+                RoomCost.fromBigDecimal(dbEntity.getPricePerDay()),
                 RoomPricePerDay.fromBigDecimal(dbEntity.getPricePerDay()),
                 dbEntity.getCapacity(),
                 dbEntity.getNumberOfBeds(),
@@ -48,6 +49,7 @@ public class RoomPersistenceMapper {
         dbEntity.setDescription(room.getDescription());
         dbEntity.setCategory(room.getCategory().getName());
         dbEntity.setStatus(room.getStatus());
+        dbEntity.setCostPerDay(room.getCost().getCost());
         dbEntity.setPricePerDay(room.getPricePerDay().getPricePerDay());
         dbEntity.setCapacity(room.getCapacity());
         dbEntity.setNumberOfBeds(room.getNumberOfBeds());

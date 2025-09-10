@@ -20,6 +20,7 @@ public class Room {
     private final Category category;
     private final RoomStatus status;
     private final RoomPricePerDay pricePerDay;
+    private final RoomCost cost;
     private final int capacity;
     private final int numberOfBeds;
     private final int roomNumber;
@@ -36,6 +37,7 @@ public class Room {
                 String description,
                 Category category,
                 RoomStatus status,
+                RoomCost cost,
                 RoomPricePerDay pricePerDay,
                 int capacity,
                 int numberOfBeds,
@@ -64,6 +66,7 @@ public class Room {
         this.category = category;
         this.status = status;
         this.pricePerDay = pricePerDay;
+        this.cost = cost;
         this.capacity = capacity;
         this.numberOfBeds = numberOfBeds;
         this.roomNumber = roomNumber;
@@ -83,6 +86,7 @@ public class Room {
                 this.description,
                 this.category,
                 newStatus,
+                this.cost,
                 this.pricePerDay,
                 this.capacity,
                 this.numberOfBeds,

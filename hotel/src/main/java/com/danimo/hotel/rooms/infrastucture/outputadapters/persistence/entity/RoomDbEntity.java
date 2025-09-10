@@ -34,6 +34,8 @@ public class RoomDbEntity {
     @Enumerated(EnumType.STRING)
     private RoomStatus status;
     @Column
+    private BigDecimal costPerDay;
+    @Column
     private BigDecimal pricePerDay;
     @Column
     private int capacity;

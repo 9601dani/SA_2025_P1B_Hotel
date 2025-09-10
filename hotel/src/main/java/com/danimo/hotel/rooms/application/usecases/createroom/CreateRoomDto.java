@@ -17,6 +17,7 @@ public class CreateRoomDto {
     private String category;
     private String status;
     private BigDecimal pricePerDay;
+    private BigDecimal costPerDay;
     private int capacity;
     private int numberOfBed;
     private int roomNumber;
@@ -38,6 +39,7 @@ public class CreateRoomDto {
                 description,
                 Category.fromString(category),
                 RoomStatus.fromString(status),
+                RoomCost.fromBigDecimal(costPerDay),
                 RoomPricePerDay.fromBigDecimal(pricePerDay),
                 capacity,
                 numberOfBed,

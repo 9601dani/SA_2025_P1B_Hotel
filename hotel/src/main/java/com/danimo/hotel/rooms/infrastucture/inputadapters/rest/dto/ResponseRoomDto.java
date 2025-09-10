@@ -22,6 +22,7 @@ public class ResponseRoomDto {
     private String description;
     private String category;
     private String status;
+    private BigDecimal costPerDay;
     private BigDecimal pricePerDay;
     private int capacity;
     private int numberOfBed;
@@ -41,6 +42,7 @@ public class ResponseRoomDto {
                 room.getDescription(),
                 room.getCategory().getName(),
                 room.getStatus().name(),
+                room.getCost().getCost(),
                 room.getPricePerDay().getPricePerDay(),
                 room.getCapacity(),
                 room.getNumberOfBeds(),

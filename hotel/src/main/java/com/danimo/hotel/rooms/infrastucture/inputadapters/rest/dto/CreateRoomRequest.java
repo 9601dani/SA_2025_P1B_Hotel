@@ -18,6 +18,7 @@ public class CreateRoomRequest {
     private String description;
     private String category;
     private String status;
+    private BigDecimal costPerDay;
     private BigDecimal pricePerDay;
     private int capacity;
     private int numberOfBed;
@@ -34,6 +35,7 @@ public class CreateRoomRequest {
                getDescription(),
                getCategory(),
                getStatus(),
+               getCostPerDay(),
                getPricePerDay(),
                getCapacity(),
                getNumberOfBed(),

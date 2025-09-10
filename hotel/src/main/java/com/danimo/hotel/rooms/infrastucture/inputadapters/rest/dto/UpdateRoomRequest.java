@@ -16,6 +16,7 @@ public class UpdateRoomRequest {
     private String description;
     private String category;
     private String status;
+    private BigDecimal costPerDay;
     private BigDecimal pricePerDay;
     private int capacity;
     private int numberOfBed;
@@ -37,6 +38,7 @@ public class UpdateRoomRequest {
                 description,
                 category,
                 status,
+                costPerDay,
                 pricePerDay,
                 capacity,
                 numberOfBed,
