@@ -3,6 +3,7 @@ package com.danimo.hotel.appointment.infrastructure.outputadapters.rest.dto;
 import com.danimo.hotel.appointment.domain.Appointment;
 import lombok.Value;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ public class CreateBillRequestDto {
     private String clientName;
     private String billTypeService;
     private String moneda;
+    private BigDecimal discount;
     private List<CreateBillItemRequestDto> items;
 
     public static CreateBillRequestDto fromOrder(Appointment appointment) {
@@ -22,6 +24,7 @@ public class CreateBillRequestDto {
                 appointment.getDescription(),
                 "HOTEL",
                 "GTQ",
+                appointment.getDiscount().getDiscount(),
                 appointment.getItems().stream()
                         .map(i -> new CreateBillItemRequestDto(
                                 i.getRoomName(),
