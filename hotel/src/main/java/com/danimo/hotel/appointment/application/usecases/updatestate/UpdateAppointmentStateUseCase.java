@@ -3,9 +3,11 @@ package com.danimo.hotel.appointment.application.usecases.updatestate;
 import com.danimo.hotel.appointment.application.inputports.UpdatingStateAppointmentInputPort;
 import com.danimo.hotel.appointment.application.outputports.persistence.FindingAppointmentByIdOutputPort;
 import com.danimo.hotel.appointment.application.outputports.persistence.StoringAppointmentOutputPort;
+import com.danimo.hotel.appointment.application.outputports.rest.CreateMovementOutputPort;
 import com.danimo.hotel.appointment.application.outputports.rest.CreatingBillOutputPort;
 import com.danimo.hotel.appointment.domain.Appointment;
 import com.danimo.hotel.appointment.domain.AppointmentStatus;
+import com.danimo.hotel.appointment.infrastructure.outputadapters.rest.dto.CreateMovementRequestDto;
 import com.danimo.hotel.common.application.annotations.UseCase;
 import com.danimo.hotel.common.application.exceptions.EntityNotFoundException;
 import com.danimo.hotel.rooms.application.inputports.UpdatingRoomStatusInputPort;
@@ -21,14 +23,16 @@ public class UpdateAppointmentStateUseCase implements UpdatingStateAppointmentIn
     private final StoringAppointmentOutputPort storingAppointmentOutputPort;
     private final CreatingBillOutputPort creatingBillOutputPort;
     private final UpdatingRoomStatusInputPort updatingRoomStatusInputPort;
+    private final CreateMovementOutputPort createMovementOutputPort;
 
     @Autowired
     public UpdateAppointmentStateUseCase(FindingAppointmentByIdOutputPort findingAppointmentByIdOutputPort, StoringAppointmentOutputPort storingAppointmentOutputPort, CreatingBillOutputPort creatingBillOutputPort,
-                                         UpdatingRoomStatusInputPort updatingRoomStatusInputPort) {
+                                         UpdatingRoomStatusInputPort updatingRoomStatusInputPort, CreateMovementOutputPort createMovementOutputPort) {
         this.findingAppointmentByIdOutputPort = findingAppointmentByIdOutputPort;
         this.storingAppointmentOutputPort = storingAppointmentOutputPort;
         this.creatingBillOutputPort = creatingBillOutputPort;
         this.updatingRoomStatusInputPort = updatingRoomStatusInputPort;
+        this.createMovementOutputPort = createMovementOutputPort;
     }
 
     @Override
@@ -55,6 +59,31 @@ public class UpdateAppointmentStateUseCase implements UpdatingStateAppointmentIn
 
             if(!creatingBillOutputPort.createBill(savedAppointment)){
                 throw new EntityNotFoundException("La factura no pudo generarse para la orden");
+            }
+            var movementDto = CreateMovementRequestDto.generateDto(
+                    "HOTEL",
+                    "CREDIT",
+                    "Pago de habitación completada ",
+                    savedAppointment.getTotal().getTotal(),
+                    savedAppointment.getLocationId(),
+                    ""
+            );
+
+            if (!createMovementOutputPort.isSuccess(movementDto)) {
+                throw new RuntimeException("No se pudo registrar el movimiento en reportes");
+            }
+
+            var taxMovement = CreateMovementRequestDto.generateDto(
+                    "HOTEL",
+                    "DEBIT",
+                    "Impuesto sobre habitación",
+                    savedAppointment.getTax().getTax(),
+                    savedAppointment.getLocationId(),
+                    ""
+            );
+
+            if (!createMovementOutputPort.isSuccess(taxMovement)) {
+                throw new RuntimeException("No se pudo registrar el movimiento de impuesto en reportes");
             }
         }
         return savedAppointment;
