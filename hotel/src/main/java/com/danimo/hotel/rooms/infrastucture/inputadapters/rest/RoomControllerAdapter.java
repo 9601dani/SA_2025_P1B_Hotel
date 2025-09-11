@@ -1,5 +1,6 @@
 package com.danimo.hotel.rooms.infrastucture.inputadapters.rest;
 
+import com.danimo.hotel.common.application.exceptions.EntityNotFoundException;
 import com.danimo.hotel.common.infrastructure.annotations.WebAdapter;
 import com.danimo.hotel.rooms.application.inputports.*;
 import com.danimo.hotel.rooms.application.usecases.availablerooms.FindAvailableRoomsCoomandDto;
@@ -182,5 +183,22 @@ public class RoomControllerAdapter {
                 .toList();
 
         return ResponseEntity.ok(rooms);
+    }
+    @Operation(
+            summary = "Verificar existencia de la habitacion",
+            description = "Devuelve si existe o no."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Habitacion encontrada"),
+            @ApiResponse(responseCode = "404", description = "Habitacion no encontrada")
+    })
+    @RequestMapping(method = RequestMethod.HEAD, path = "/check/{id}")
+    public ResponseEntity<Void> checkRoomExistence(@PathVariable String id) {
+        try {
+            findingRoomByIdInputPort.findRoomById(UUID.fromString(id));
+            return ResponseEntity.ok().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

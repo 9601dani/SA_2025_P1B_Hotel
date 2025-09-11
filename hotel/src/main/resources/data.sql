@@ -110,7 +110,7 @@ INSERT INTO appointments (
              '55555555-3333-0000-0000-000000000003',
              'Reserva 2 noches Habitación Deluxe',
              '123e4567-e89b-12d3-a456-426614174002',
-             'CUST-003',
+             '1667958K',
              'CANCELLED',
              190.00,
              20.00, 'PROMO20',
