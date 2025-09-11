@@ -158,4 +158,29 @@ public class RoomControllerAdapter {
 
         return ResponseEntity.ok(rooms);
     }
+
+    @Operation(
+            summary = "Habitaciones disponibles por rango de fechas para la app de cliente",
+            description = "Devuelve las habitaciones disponibles (sin traslape de reservas) para la ubicación indicada."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Habitaciones disponibles encontradas"),
+            @ApiResponse(responseCode = "400", description = "Parámetros inválidos")
+    })
+    @GetMapping("client/availability")
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<ResponseRoomDto>> getAvailableRoomsbyClient(
+            @RequestParam UUID locationId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+    ) {
+        var command = new FindAvailableRoomsCoomandDto(locationId, startDate, endDate);
+
+        var rooms = findAvailableRoomsInputPort.findRoomsAvailabilities(command)
+                .stream()
+                .map(ResponseRoomDto::fromDomain)
+                .toList();
+
+        return ResponseEntity.ok(rooms);
+    }
 }

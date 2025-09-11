@@ -38,8 +38,10 @@ public class CreateAppointmentUseCase implements CreatingAppointmentInputPort {
             throw new EntityNotFoundException("El establecimiento no existe");
         }
 
-        if(!existEmployeeOutputPort.existEmployee(dto.getUserEmployeeId())){
-            throw new EntityNotFoundException("El empleado no existe");
+        if(dto.getUserEmployeeId() != null) {
+            if(!existEmployeeOutputPort.existEmployee(dto.getUserEmployeeId())){
+                throw new EntityNotFoundException("El empleado no existe");
+            }
         }
 
         LocalDate start = dto.getStartDate();

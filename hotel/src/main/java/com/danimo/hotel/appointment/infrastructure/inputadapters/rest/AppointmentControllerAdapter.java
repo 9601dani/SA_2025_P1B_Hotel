@@ -177,4 +177,25 @@ public class AppointmentControllerAdapter {
 
         return ResponseEntity.ok(AppointmentResponse.fromDomain(appointment));
     }
+
+    @Operation(
+            summary = "Crear nueva reservacion del cliente",
+            description = "Devuelve la información de la reservacion correspondiente."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Reservacion creada"),
+            @ApiResponse(responseCode = "404", description = "Reservacion no creada")
+    })
+    @PostMapping("/client")
+    @Transactional
+    public ResponseEntity<AppointmentResponse> createAppointmentByClient(@RequestBody CreateAppointmentRequestDto dto){
+        CreateAppointmentDto objectAdaptedFromRestToDomain = dto.toAppli();
+
+
+        Appointment appointment = creatingAppointmentInputPort.createAppointment(objectAdaptedFromRestToDomain);
+
+        AppointmentResponse response = AppointmentResponse.fromDomain(appointment);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
 }
