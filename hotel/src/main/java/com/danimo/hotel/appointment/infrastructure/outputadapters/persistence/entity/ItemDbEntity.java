@@ -17,9 +17,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ItemDbEntity {
     @Id
+    @Column(columnDefinition = "CHAR(36)")
     private UUID id;
 
-    @Column
+    @Column(columnDefinition = "CHAR(36)")
     private UUID roomId;
     @Column
     private String roomName;

@@ -6,6 +6,7 @@ import lombok.Value;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +26,7 @@ public class AppointmentResponse {
     List<AppointmentItemReponseDto> items;
     LocalDate startDate;
     LocalDate endDate;
+    LocalDateTime createdAt;
 
     public static AppointmentResponse fromDomain(Appointment appointment) {
         return new AppointmentResponse(
@@ -41,7 +43,8 @@ public class AppointmentResponse {
                 appointment.getTotal().getTotal(),
                 appointment.getItems().stream().map(AppointmentItemReponseDto::fromDomain).toList(),
                 appointment.getStartDate().getStartAt(),
-                appointment.getEndDate().getEndAt()
+                appointment.getEndDate().getEndAt(),
+                appointment.getCreatedAt().getCreateAt()
         );
     }
 }

@@ -21,8 +21,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RoomDbEntity {
     @Id
+    @Column(columnDefinition = "CHAR(36)")
     private UUID id;
-    @Column
+    @Column(columnDefinition = "CHAR(36)")
     private UUID locationId;
     @Column
     private String name;

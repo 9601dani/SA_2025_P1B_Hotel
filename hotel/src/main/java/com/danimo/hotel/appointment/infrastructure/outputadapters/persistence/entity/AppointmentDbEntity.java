@@ -22,10 +22,11 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AppointmentDbEntity {
     @Id
+    @Column(columnDefinition = "CHAR(36)")
     private UUID id;
     @Column
     private String description;
-    @Column
+    @Column(columnDefinition = "CHAR(36)")
     private UUID locationId;
     @Column
     private String idClient;
@@ -47,7 +48,7 @@ public class AppointmentDbEntity {
     private LocalDate startDate;
     @Column
     private LocalDate endDate;
-    @Column
+    @Column(columnDefinition = "CHAR(36)")
     private UUID userEmployeeId;
 
     @OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
