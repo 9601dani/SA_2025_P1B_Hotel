@@ -56,11 +56,15 @@ public class CheckinUseCase implements CheckInAppointmentInputPort {
         }*/
         currrentAppointment.changeStatusCheckin(dto.getClientId());
 
+
         currrentAppointment.getItems().forEach(item -> {
             UUID roomId = item.getRoomId().getId();
             UpdateStatusRoomDto updateRoomDto = new UpdateStatusRoomDto(roomId, RoomStatus.BUSY);
             updatingRoomStatusInputPort.updateStatus(updateRoomDto);
         });
+
+        System.out.println("______________________");
+        System.out.println(currrentAppointment.getStatus());
 
         return storingAppointmentOutputPort.save(currrentAppointment);
 

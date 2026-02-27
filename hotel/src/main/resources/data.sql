@@ -66,7 +66,7 @@ INSERT INTO appointments (
              '55555555-1111-0000-0000-000000000001',
              'Reserva 3 noches Habitación Estándar',
              '550e8400-e29b-41d4-a716-446655440000',
-             'CUST-001',
+             '1667958k',
              'CREATED',
              225.00,
              10.00, 'WELCOME10',
@@ -87,7 +87,7 @@ INSERT INTO appointments (
 ) VALUES (
              '55555555-2222-0000-0000-000000000002',
              'Reserva 1 noche Penthouse',
-             '123e4567-e89b-12d3-a456-426614174004',
+             '123e4567-e89b-12d3-a456-426614174002',
              'CUST-002',
              'CREATED',
              300.00,
