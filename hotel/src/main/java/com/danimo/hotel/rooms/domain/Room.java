@@ -20,7 +20,7 @@ public class Room {
     private final Category category;
     private final RoomStatus status;
     private final RoomPricePerDay pricePerDay;
-    private final RoomCost cost;
+    private final RoomCost costPerDay;
     private final int capacity;
     private final int numberOfBeds;
     private final int roomNumber;
@@ -37,7 +37,7 @@ public class Room {
                 String description,
                 Category category,
                 RoomStatus status,
-                RoomCost cost,
+                RoomCost costPerDay,
                 RoomPricePerDay pricePerDay,
                 int capacity,
                 int numberOfBeds,
@@ -66,7 +66,7 @@ public class Room {
         this.category = category;
         this.status = status;
         this.pricePerDay = pricePerDay;
-        this.cost = cost;
+        this.costPerDay = costPerDay;
         this.capacity = capacity;
         this.numberOfBeds = numberOfBeds;
         this.roomNumber = roomNumber;
@@ -86,7 +86,7 @@ public class Room {
                 this.description,
                 this.category,
                 newStatus,
-                this.cost,
+                this.costPerDay,
                 this.pricePerDay,
                 this.capacity,
                 this.numberOfBeds,
@@ -100,4 +100,26 @@ public class Room {
         );
     }
 
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", locationId=" + locationId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", category=" + category +
+                ", status=" + status +
+                ", pricePerDay=" + pricePerDay +
+                ", costPerDay=" + costPerDay +
+                ", capacity=" + capacity +
+                ", numberOfBeds=" + numberOfBeds +
+                ", roomNumber=" + roomNumber +
+                ", amenities=" + amenities +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", smokingAllowed=" + smokingAllowed +
+                ", floorNumber=" + floorNumber +
+                ", imageUrl='" + imageUrl + '\'' +
+                '}';
+    }
 }

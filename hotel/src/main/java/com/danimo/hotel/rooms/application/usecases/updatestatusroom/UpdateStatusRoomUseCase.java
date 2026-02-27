@@ -39,7 +39,7 @@ public class UpdateStatusRoomUseCase implements UpdatingRoomStatusInputPort {
                     "HOTEL",
                     "DEBIT",
                     "Pago por mantenimiento sobre habitación",
-                    room.getCost().getCost(),
+                    room.getCostPerDay().getCostPerDay(),
                     room.getLocationId(),
                     ""
             );

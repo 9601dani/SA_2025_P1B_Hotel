@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 @Value
 public class RoomCost {
-    private BigDecimal cost;
+    private BigDecimal costPerDay;
 
     public RoomCost(BigDecimal cost) {
         if(cost == null){
@@ -16,7 +16,7 @@ public class RoomCost {
             throw new IllegalArgumentException("El costo no puede ser negativo");
         }
 
-        this.cost = cost;
+        this.costPerDay = cost;
     }
 
     public static RoomCost fromBigDecimal(BigDecimal cost) {

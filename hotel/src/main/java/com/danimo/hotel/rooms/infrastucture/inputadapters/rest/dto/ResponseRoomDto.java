@@ -42,7 +42,7 @@ public class ResponseRoomDto {
                 room.getDescription(),
                 room.getCategory().getName(),
                 room.getStatus().name(),
-                room.getCost().getCost(),
+                room.getCostPerDay().getCostPerDay(),
                 room.getPricePerDay().getPricePerDay(),
                 room.getCapacity(),
                 room.getNumberOfBeds(),

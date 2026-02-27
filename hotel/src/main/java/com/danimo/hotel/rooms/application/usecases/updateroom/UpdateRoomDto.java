@@ -30,7 +30,10 @@ public class UpdateRoomDto {
         List<Amenity> domainAmenities = amenityList.stream()
                 .map(UpdateAmenitiesDto::toDomain)
                 .toList();
-
+        System.out.println("---------------------------------");
+        System.out.println(existing.toString());
+        System.out.println("Costo por dia"+costPerDay);
+        System.out.println("Price per dia"+pricePerDay);
         return new Room(
                 existing.getId(),
                 locationId,
